@@ -1,0 +1,30 @@
+#linkedin-helper {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #0a66c2;
+  color: white;
+  font-family: Arial, sans-serif;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 99999;
+  opacity: 0;
+  transform: translateY(-5px);
+  animation: fadeIn 0.6s forwards;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+#linkedin-helper h4 {
+  margin: 0 0 6px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+#linkedin-helper p {
+  margin: 0;
+  font-size: 13px;
+}

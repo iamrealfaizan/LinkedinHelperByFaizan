@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedinHelperByFaizan",
+  "version": "1.0.2",
+  "description": "Displays the exact number of LinkedIn job applications on any job page or search panel.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["https://www.linkedin.com/*"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.linkedin.com/jobs/view/*",
+        "https://www.linkedin.com/jobs/search/*",
+        "https://www.linkedin.com/jobs/collections/*"
+      ],
+      "js": ["contentScript.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "icons": {
+    "48": "icons/icon.png",
+    "128": "icons/icon-min.png"
+  }
+}
