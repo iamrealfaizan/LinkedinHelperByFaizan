@@ -1,23 +1,27 @@
 {
   "manifest_version": 3,
   "name": "LinkedinHelperByFaizan",
-  "version": "1.0.2",
-  "description": "Displays the exact number of LinkedIn job applications on any job page or search panel.",
-  "permissions": ["activeTab", "scripting"],
+  "version": "1.2.0",
+  "description": "Displays the number of applicants for any LinkedIn job directly from the voyager API response.",
+  "permissions": ["scripting", "activeTab"],
   "host_permissions": ["https://www.linkedin.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": [
         "https://www.linkedin.com/jobs/view/*",
         "https://www.linkedin.com/jobs/search/*",
-        "https://www.linkedin.com/jobs/collections/*"
+        "https://www.linkedin.com/jobs/collections/*",
+        "https://www.linkedin.com/jobs/collections/recommended/*"
       ],
       "js": ["contentScript.js"],
       "css": ["styles.css"]
     }
   ],
   "icons": {
-    "48": "icons/icon.png",
+    "48": "icons/icon-min.png",
     "128": "icons/icon-min.png"
   }
 }
