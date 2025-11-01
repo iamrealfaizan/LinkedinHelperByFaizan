@@ -11,7 +11,9 @@
     el.innerHTML = `
       <div class="helper-box">
         <h4>LinkedIn Helper by Faizan</h4>
-        <p><b>Applicants:</b> <span id="applicant-count">Loading...</span></p>
+        <div id="applicant-count">
+          <p><b>Applicants:</b> Loading...</p>
+        </div>
       </div>`;
     document.body.appendChild(el);
     return el;
@@ -26,12 +28,14 @@
   }
 
 async function fetchApplicants(jobId) {
-  const el = document.getElementById("applicant-count");
-  if (el) el.textContent = "Fetching...";
+  const el = document.getElementById("linkedin-helper");
+  if (!el) createBox();
+
+  const applicantsEl = document.getElementById("applicant-count");
+  if (applicantsEl) applicantsEl.textContent = "Fetching...";
 
   try {
-    const apiUrl = `https://www.linkedin.com/voyager/api/jobs/jobPostings/${jobId}?decorationId=com.linkedin.voyager.deco.jobs.web.shared.WebFullJobPosting-65&topN=1&topNRequestedFlavors=List(TOP_APPLICANT,IN_NETWORK,COMPANY_RECRUIT,SCHOOL_RECRUIT,HIDDEN_GEM,ACTIVELY_HIRING_COMPANY)`;
-
+    const apiUrl = `https://www.linkedin.com/voyager/api/jobs/jobPostings/${jobId}?decorationId=com.linkedin.voyager.deco.jobs.web.shared.WebFullJobPosting-65`;
     const res = await fetch(apiUrl, {
       credentials: "include",
       headers: {
@@ -43,17 +47,27 @@ async function fetchApplicants(jobId) {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
-    // Handle both cases: nested and top-level "applies"
+    // Extract values safely
     const applicants =
       data?.data?.applies ??
       data?.applies ??
       data?.elements?.[0]?.applies ??
       "N/A";
 
-    el.textContent = applicants;
+    const views =
+      data?.data?.views ??
+      data?.views ??
+      data?.elements?.[0]?.views ??
+      "N/A";
+    
+    // Update UI
+    applicantsEl.innerHTML = `
+      <p><b>Applicants:</b> ${applicants}</p>
+      <p><b>Views:</b> ${views}</p>
+    `;
   } catch (err) {
     console.error("LinkedinHelperByFaizan: Fetch error", err);
-    if (el) el.textContent = "Error";
+    if (applicantsEl) applicantsEl.textContent = "Error";
   }
 }
 
